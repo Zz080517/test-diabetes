@@ -413,16 +413,16 @@ elif selected_service == service_options["report"]:
 
     st.success(f"✅ BMI: {bmi} | BMR: {bmr} kcal/day")
 
-    # 📝 报告文本内容
-    report = f"""Health Report
-    Name: {name}
-    Gender: {gender}
+    if texts["title"] == "糖尿病助手":
+        # 不做中译，保持英文
+        report = f"""
+    Diabetes Risk Assessment Report
+    Name: {name or 'Anonymous'}
     Age: {age}
-    Height: {height} cm
-    Weight: {weight} kg
-    Glucose: {glucose}
     BMI: {bmi}
-    BMR: {bmr} kcal/day"""
+    Glucose: {glucose}
+    Prediction Result: {result}
+    """
 
     # 📄 预览 + 下载按钮
     st.text_area("📄 Report Preview", report, height=280)
