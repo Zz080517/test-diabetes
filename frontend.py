@@ -143,8 +143,22 @@
 import streamlit as st
 import joblib
 import pandas as pd
-from fpdf import FPDF
 from io import BytesIO
+from fpdf import FPDF
+
+def create_pdf(report_text: str) -> bytes:
+    pdf = FPDF()
+    pdf.add_page()
+
+    # 添加 UTF-8 支持的中文字体
+    pdf.add_font("Noto", "", "assets/NotoSerifSC-VariableFont_wght.ttf", uni=True)
+    pdf.set_font("Noto", size=12)
+
+    for line in report_text.split("\n"):
+        pdf.multi_cell(0, 10, txt=line)
+
+    return pdf.output(dest="S").encode("latin1", errors="ignore")
+
 
 model = joblib.load("diabetes_model.pkl")
 
