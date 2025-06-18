@@ -304,8 +304,8 @@ LANGUAGES = {
                 "very_high_glucose": "❗ Glukosa sangat tinggi. Sila rujuk doktor dengan segera.",
                 "age_glucose_warning": "👁️ Umur dan glukosa tinggi — pertimbangkan pemeriksaan mata, buah pinggang, dan tekanan darah.",
                 "too_thin": "🔍 BMI terlalu rendah mungkin menunjukkan kekurangan nutrisi. Pertimbangkan pemeriksaan gastrointestinal atau tiroid."
+            }
     }
-}
 }
 
 # 🧭 固定语言选择（侧边栏顶部常驻）
@@ -438,22 +438,22 @@ elif selected_service == service_options["bmr"]:
     st.success(f"{texts['bmr_result']}：{bmr} kcal/day")
 
 
-elif selected_service == service_options["report"]:
-    st.markdown(f"### 🧾 {texts['report_generate']}")
-
-    name = st.text_input(texts.get("name", "姓名 / Name"), "")
-    gender = st.radio(texts["gender"], [texts["male"], texts["female"]], horizontal=True)
-    age = st.number_input(texts["age"], min_value=1, max_value=120, value=30)
-    height = st.number_input(texts["height"], min_value=100, max_value=220, value=170)
-    weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0)
-    glucose = st.number_input(texts["glucose"], min_value=50.0, max_value=300.0, value=90.0)
-
-    # 🧮 计算 BMI & BMR
-    height_m = height / 100
-    bmi = round(weight / (height_m ** 2), 2)
-    bmr = round(10 * weight + 6.25 * height - 5 * age + (5 if gender == texts["male"] else -161), 2)
-
-    st.success(f"✅ BMI: {bmi} | BMR: {bmr} kcal/day")
+# elif selected_service == service_options["report"]:
+#     st.markdown(f"### 🧾 {texts['report_generate']}")
+#
+#     name = st.text_input(texts.get("name", "姓名 / Name"), "")
+#     gender = st.radio(texts["gender"], [texts["male"], texts["female"]], horizontal=True)
+#     age = st.number_input(texts["age"], min_value=1, max_value=120, value=30)
+#     height = st.number_input(texts["height"], min_value=100, max_value=220, value=170)
+#     weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0)
+#     glucose = st.number_input(texts["glucose"], min_value=50.0, max_value=300.0, value=90.0)
+#
+#     # 🧮 计算 BMI & BMR
+#     height_m = height / 100
+#     bmi = round(weight / (height_m ** 2), 2)
+#     bmr = round(10 * weight + 6.25 * height - 5 * age + (5 if gender == texts["male"] else -161), 2)
+#
+#     st.success(f"✅ BMI: {bmi} | BMR: {bmr} kcal/day")
 
     # # 📝 报告文本内容
     # report = f"""Health Report
