@@ -413,20 +413,20 @@ elif selected_service == service_options["report"]:
 
     st.success(f"✅ BMI: {bmi} | BMR: {bmr} kcal/day")
 
-    if texts["title"] == "糖尿病助手":
-        # 不做中译，保持英文
-        report = f"""
-    Diabetes Risk Assessment Report
-    Name: {name or 'Anonymous'}
-    Age: {age}
-    BMI: {bmi}
-    Glucose: {glucose}
-    Prediction Result: {result}
-    """
+# 📝 构建英文版报告内容
+report = f"""\
+Diabetes Risk Assessment Report
+Name: {name or 'Anonymous'}
+Age: {age}
+BMI: {bmi}
+Glucose: {glucose}
+Prediction Result: {result}
+"""
 
-    # 📄 预览 + 下载按钮
+# ✅ 用户点按钮再显示与下载
+if st.button("📄 Generate Report"):
     st.text_area("📄 Report Preview", report, height=280)
-    st.download_button("⬇️ 下载报告为 TXT", report, file_name="health_report.txt")
+    st.download_button("⬇️ Download TXT", report, file_name="health_report.txt")
 
     pdf_bytes = create_pdf(report)
-    st.download_button("📄 下载报告为 PDF", pdf_bytes, file_name="health_report.pdf", mime="application/pdf")
+    st.download_button("📄 Download PDF", pdf_bytes, file_name="health_report.pdf", mime="application/pdf")
