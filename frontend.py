@@ -139,12 +139,19 @@
 # st.subheader("📋 " + ("Personalized Advice" if language == "English" else "个性化健康建议"))
 # for note in health_notes:
 #     st.info(note)
-
+# 载入模型（建议放在全局，只加载一次）
 import streamlit as st
-import requests
+import joblib
 import pandas as pd
 from fpdf import FPDF
 from io import BytesIO
+
+model = joblib.load("diabetes_model.pkl")
+
+def predict_diabetes(age, bmi, glucose):
+    features = [[age, bmi, glucose]]
+    result = model.predict(features)
+    return "可能有糖尿病" if result[0] == 1 else "可能没有糖尿病"
 
 def create_pdf(report_text: str) -> bytes:
     pdf = FPDF()
@@ -298,19 +305,16 @@ if selected_service == service_options["predict"]:
             st.warning(texts["warning"])
         else:
             try:
-                url = "http://127.0.0.1:5000/predict"
-                payload = {"Age": age, "BMI": bmi, "Glucose": glucose}
-                response = requests.post(url, json=payload)
-                if response.status_code == 200:
-                    result = response.json()["prediction"]
-                    if language == "English":
-                        if "没有" in result:
-                            result = texts["negative"]
-                        elif "有" in result:
-                            result = texts["positive"]
-                    st.success(f"{texts['predict']} result: **{result}**")
-                else:
-                    st.error("⚠️ " + texts["error"])
+                result = predict_diabetes(age, bmi, glucose)
+
+                if language == "English":
+                    if "没有" in result:
+                        result = texts["negative"]
+                    elif "有" in result:
+                        result = texts["positive"]
+
+                st.success(f"{texts['predict']}：**{result}**")
+
             except Exception as e:
                 st.error("❌ " + str(e))
 
