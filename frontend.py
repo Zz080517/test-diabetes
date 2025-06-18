@@ -304,7 +304,7 @@ LANGUAGES = {
                 "very_high_glucose": "❗ Glukosa sangat tinggi. Sila rujuk doktor dengan segera.",
                 "age_glucose_warning": "👁️ Umur dan glukosa tinggi — pertimbangkan pemeriksaan mata, buah pinggang, dan tekanan darah.",
                 "too_thin": "🔍 BMI terlalu rendah mungkin menunjukkan kekurangan nutrisi. Pertimbangkan pemeriksaan gastrointestinal atau tiroid."
-            }
+            },
     }
 }
 
