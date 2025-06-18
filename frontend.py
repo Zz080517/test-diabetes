@@ -154,16 +154,16 @@ def predict_diabetes(age, bmi, glucose):
     result = model.predict(features)
     return "可能有糖尿病" if result[0] == 1 else "可能没有糖尿病"
 
-def create_pdf(report_text: str) -> bytes:
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
-
-    for line in report_text.split("\n"):
-        pdf.multi_cell(0, 10, txt=line)
-
-    # ✅ 直接输出为 bytes 而不是写入文件
-    return pdf.output(dest='S').encode('latin1')
+# def create_pdf(report_text: str) -> bytes:
+#     pdf = FPDF()
+#     pdf.add_page()
+#     pdf.set_font("Arial", size=12)
+#
+#     for line in report_text.split("\n"):
+#         pdf.multi_cell(0, 10, txt=line)
+#
+#     # ✅ 直接输出为 bytes 而不是写入文件
+#     return pdf.output(dest='S').encode('latin1')
 
 # 🌈 渐变背景样式
 st.markdown("""
@@ -262,7 +262,50 @@ LANGUAGES = {
             "age_glucose_warning": "👁️ 年龄较长且血糖偏高，建议检查眼底、肾功能与血压情况。",
             "too_thin": "🔍 体重过轻可能反映营养吸收不良，请关注胃肠健康或甲状腺功能。"
         }
+    },
+    "Malay": {
+            "title": "Pembantu Diabetes",
+            "select_service": "Pilih Perkhidmatan",
+            "select_language": "Pilih Bahasa",
+            "age": "Umur",
+            "bmi": "BMI",
+            "glucose": "Tahap Glukosa",
+            "predict": "Ramalkan",
+            "trend_title": "📊 Trend Umur vs. Tahap Glukosa",
+            "warning": "❗ Sila lengkapkan semua medan sebelum menghantar.",
+            "error": "Permintaan gagal, sila semak sama ada pelayan Flask berjalan.",
+            "positive": "Kemungkinan ada diabetes",
+            "negative": "Tiada risiko diabetes",
+            "calc_bmi": "Kalkulator BMI",
+            "weight": "Berat (kg)",
+            "height": "Tinggi (cm)",
+            "bmr_calc": "Kalkulator BMR",
+            "bmr_result": "Kadar Metabolisme Asas anda ialah",
+            "gender": "Jantina",
+            "male": "Lelaki",
+            "female": "Perempuan",
+            "ideal_weight": "Berat Ideal (BMI=22)",
+            "healthy_range": "Julat berat untuk BMI sihat",
+            "already_ideal": "✅ Anda sudah hampir dengan berat ideal!",
+            "lose": "Anda mungkin ingin menurunkan sekitar",
+            "gain": "Anda mungkin ingin menaikkan sekitar",
+            "reach_ideal": "untuk mencapai BMI ideal",
+            "computed_bmi": "✅ BMI anda ialah",
+            "report_generate": "Penjana Laporan Kesihatan",
+            "advice_title": "📋 Nasihat Kesihatan Peribadi",
+            "advice": {
+                "underweight": "🍃 BMI anda terlalu rendah. Tambahkan nutrisi dan jaga imuniti serta kesihatan tulang anda.",
+                "normal_bmi": "✅ BMI anda dalam julat sihat. Teruskan gaya hidup ini!",
+                "overweight": "⚠️ Anda sedikit berat badan. Kurangkan makanan berkalori tinggi dan lebihkan aktiviti fizikal.",
+                "obese": "❗ BMI menunjukkan obesiti. Sila pertimbangkan untuk mengubah diet dan bersenam secara berkala.",
+                "low_glucose": "🍬 Tahap glukosa rendah. Elakkan berpuasa terlalu lama, makan secara berkala.",
+                "normal_glucose": "✅ Glukosa normal. Teruskan diet seimbang dan aktiviti fizikal.",
+                "high_glucose": "⚠️ Glukosa tinggi. Kurangkan pengambilan gula, pantau secara berkala.",
+                "very_high_glucose": "❗ Glukosa sangat tinggi. Sila rujuk doktor dengan segera.",
+                "age_glucose_warning": "👁️ Umur dan glukosa tinggi — pertimbangkan pemeriksaan mata, buah pinggang, dan tekanan darah.",
+                "too_thin": "🔍 BMI terlalu rendah mungkin menunjukkan kekurangan nutrisi. Pertimbangkan pemeriksaan gastrointestinal atau tiroid."
     }
+}
 }
 
 # 🧭 固定语言选择（侧边栏顶部常驻）
@@ -276,7 +319,7 @@ service_options = {
     "predict": texts["predict"],
     "bmi": texts["calc_bmi"],
     "bmr": texts["bmr_calc"],
-    "report": texts["report_generate"]
+    # "report": texts["report_generate"]
 
 }
 
@@ -412,20 +455,20 @@ elif selected_service == service_options["report"]:
 
     st.success(f"✅ BMI: {bmi} | BMR: {bmr} kcal/day")
 
-    # 📝 报告文本内容
-    report = f"""Health Report
-    Name: {name}
-    Gender: {gender}
-    Age: {age}
-    Height: {height} cm
-    Weight: {weight} kg
-    Glucose: {glucose}
-    BMI: {bmi}
-    BMR: {bmr} kcal/day"""
-
-    # 📄 预览 + 下载按钮
-    st.text_area("📄 Report Preview", report, height=280)
-    st.download_button("⬇️ 下载报告为 TXT", report, file_name="health_report.txt")
-
-    pdf_bytes = create_pdf(report)
-    st.download_button("📄 下载报告为 PDF", pdf_bytes, file_name="health_report.pdf", mime="application/pdf")
+    # # 📝 报告文本内容
+    # report = f"""Health Report
+    # Name: {name}
+    # Gender: {gender}
+    # Age: {age}
+    # Height: {height} cm
+    # Weight: {weight} kg
+    # Glucose: {glucose}
+    # BMI: {bmi}
+    # BMR: {bmr} kcal/day"""
+    #
+    # # 📄 预览 + 下载按钮
+    # st.text_area("📄 Report Preview", report, height=280)
+    # st.download_button("⬇️ 下载报告为 TXT", report, file_name="health_report.txt")
+    #
+    # pdf_bytes = create_pdf(report)
+    # st.download_button("📄 下载报告为 PDF", pdf_bytes, file_name="health_report.pdf", mime="application/pdf")
