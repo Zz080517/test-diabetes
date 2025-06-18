@@ -149,13 +149,12 @@ from fpdf import FPDF
 def create_pdf(report_text: str) -> bytes:
     pdf = FPDF()
     pdf.add_page()
-
-    # 添加 UTF-8 支持的中文字体
     pdf.add_font("Noto", "", "assets/NotoSerifSC-VariableFont_wght.ttf", uni=True)
     pdf.set_font("Noto", size=12)
 
     for line in report_text.split("\n"):
-        pdf.multi_cell(0, 10, txt=line)
+        if line.strip():  # 防止空行报错
+            pdf.multi_cell(0, 10, txt=line)
 
     return pdf.output(dest="S").encode("latin1", errors="ignore")
 
@@ -166,17 +165,6 @@ def predict_diabetes(age, bmi, glucose):
     features = [[age, bmi, glucose]]
     result = model.predict(features)
     return "可能有糖尿病" if result[0] == 1 else "可能没有糖尿病"
-
-def create_pdf(report_text: str) -> bytes:
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
-
-    for line in report_text.split("\n"):
-        pdf.multi_cell(0, 10, txt=line)
-
-    # ✅ 直接输出为 bytes 而不是写入文件
-    return pdf.output(dest='S').encode('latin1')
 
 # 🌈 渐变背景样式
 st.markdown("""
