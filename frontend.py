@@ -143,20 +143,8 @@
 import streamlit as st
 import joblib
 import pandas as pd
-from io import BytesIO
 from fpdf import FPDF
-
-def create_pdf(report_text: str) -> bytes:
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.add_font("Noto", "", "assets/NotoSerifSC-VariableFont_wght.ttf", uni=True)
-    pdf.set_font("Noto", size=12)
-
-    for line in report_text.split("\n"):
-        if line.strip():  # 防止空行报错
-            pdf.multi_cell(0, 10, txt=line)
-
-    return pdf.output(dest="S").encode("latin1", errors="ignore")
+from io import BytesIO
 
 
 model = joblib.load("diabetes_model.pkl")
@@ -165,6 +153,17 @@ def predict_diabetes(age, bmi, glucose):
     features = [[age, bmi, glucose]]
     result = model.predict(features)
     return "可能有糖尿病" if result[0] == 1 else "可能没有糖尿病"
+
+def create_pdf(report_text: str) -> bytes:
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    for line in report_text.split("\n"):
+        pdf.multi_cell(0, 10, txt=line)
+
+    # ✅ 直接输出为 bytes 而不是写入文件
+    return pdf.output(dest='S').encode('latin1')
 
 # 🌈 渐变背景样式
 st.markdown("""
@@ -413,20 +412,20 @@ elif selected_service == service_options["report"]:
 
     st.success(f"✅ BMI: {bmi} | BMR: {bmr} kcal/day")
 
-# 📝 构建英文版报告内容
-report = f"""\
-Diabetes Risk Assessment Report
-Name: {name or 'Anonymous'}
-Age: {age}
-BMI: {bmi}
-Glucose: {glucose}
-Prediction Result: {result}
-"""
+    # 📝 报告文本内容
+    report = f"""Health Report
+    Name: {name}
+    Gender: {gender}
+    Age: {age}
+    Height: {height} cm
+    Weight: {weight} kg
+    Glucose: {glucose}
+    BMI: {bmi}
+    BMR: {bmr} kcal/day"""
 
-# ✅ 用户点按钮再显示与下载
-if st.button("📄 Generate Report"):
+    # 📄 预览 + 下载按钮
     st.text_area("📄 Report Preview", report, height=280)
-    st.download_button("⬇️ Download TXT", report, file_name="health_report.txt")
+    st.download_button("⬇️ 下载报告为 TXT", report, file_name="health_report.txt")
 
     pdf_bytes = create_pdf(report)
-    st.download_button("📄 Download PDF", pdf_bytes, file_name="health_report.pdf", mime="application/pdf")
+    st.download_button("📄 下载报告为 PDF", pdf_bytes, file_name="health_report.pdf", mime="application/pdf")
