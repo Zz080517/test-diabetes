@@ -105,6 +105,7 @@ LANGUAGES = {
         "computed_bmi": "✅ Your calculated BMI is",
         "report_generate": "Health Report Generator",
         "advice_title": "📋 Personalized Health Advice",
+        "bmr_tip": "📌 BMR represents your minimum daily calorie needs at rest. Useful for diet or weight control.",
         "advice": {
             "underweight": "🍃 Your BMI is underweight. Consider more nutritious intake and watch your immunity and bone health.",
             "normal_bmi": "✅ Your BMI is in a healthy range. Keep up the good work!",
@@ -148,6 +149,7 @@ LANGUAGES = {
         "computed_bmi": "✅ 您的 BMI 为",
         "report_generate":"健康报告生成器",
         "advice_title": "📋 个性化健康建议",
+        "bmr_tip": "📌 BMR 表示你在静息状态下每日所需最低热量，可以作为饮食控制或减重参考。",
         "advice": {
             "underweight": "🍃 您的体重偏瘦，建议增加营养摄入，留意免疫力和骨密度。",
             "normal_bmi": "✅ 您的 BMI 处于正常范围，保持健康生活方式。",
@@ -191,6 +193,7 @@ LANGUAGES = {
             "computed_bmi": "✅ BMI anda ialah",
             "report_generate": "Penjana Laporan Kesihatan",
             "advice_title": "📋 Nasihat Kesihatan Peribadi",
+            "bmr_tip": "📌 BMR ialah jumlah minimum kalori harian yang diperlukan ketika rehat. Sesuai untuk pengawalan pemakanan atau berat badan.",
             "advice": {
                 "underweight": "🍃 BMI anda terlalu rendah. Tambahkan nutrisi dan jaga imuniti serta kesihatan tulang anda.",
                 "normal_bmi": "✅ BMI anda dalam julat sihat. Teruskan gaya hidup ini!",
@@ -317,7 +320,8 @@ with tab2:
             st.warning(f"{texts['gain']} {abs(round(delta, 1))} kg → {texts['reach_ideal']}")
 
 with tab3:
-        st.markdown(f"### 🔥 {texts['bmr_calc']}")
+        st.markdown(f"## 🔥 **{texts['bmr_calc']}**")
+        st.info(texts["bmr_tip"])
 
         gender = st.radio(texts["gender"], [texts["male"], texts["female"]], horizontal=True,key="bmr_gender")
         weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0,key="bmr_weight")
@@ -330,4 +334,5 @@ with tab3:
             bmr = 10 * weight + 6.25 * height - 5 * age - 161
 
         bmr = round(bmr, 2)
-        st.success(f"{texts['bmr_result']}：{bmr} kcal/day")
+        st.success(f"🎉 {texts['bmr_result']}：{bmr} kcal/day")
+        st.metric(label=texts["bmr_result"], value=f"{bmr} kcal/day")
