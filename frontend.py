@@ -289,8 +289,8 @@ with tab1:
 with tab2:
         st.markdown(f"### ⚖️ {texts['calc_bmi']}")
 
-        weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0)
-        height_cm = st.number_input(texts["height"], min_value=100.0, max_value=220.0, value=170.0)
+        weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0,key="bmi_weight")
+        height_cm = st.number_input(texts["height"], min_value=100.0, max_value=220.0, value=170.0,key="bmr_height")
         height_m = height_cm / 100
         bmi_value = round(weight / (height_m ** 2), 2)
 
@@ -320,9 +320,9 @@ with tab3:
         st.markdown(f"### 🔥 {texts['bmr_calc']}")
 
         gender = st.radio(texts["gender"], [texts["male"], texts["female"]], horizontal=True)
-        weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0)
-        height = st.number_input(texts["height"], min_value=100.0, max_value=220.0, value=170.0)
-        age = st.number_input(texts["age"], min_value=10, max_value=100, value=25)
+        weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0,key="bmr_weight")
+        height = st.number_input(texts["height"], min_value=100.0, max_value=220.0, value=170.0,key="bmr_height")
+        age = st.number_input(texts["age"], min_value=10, max_value=100, value=25,key="bmr_age")
 
         if gender == texts["male"]:
             bmr = 10 * weight + 6.25 * height - 5 * age + 5
