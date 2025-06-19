@@ -226,9 +226,9 @@ tab1, tab2, tab3 = st.tabs([texts["predict"], texts["calc_bmi"], texts["bmr_calc
 
 with tab1:
         st.markdown(f"## 🤖 **{texts['title']}**")
-        age = st.number_input(texts["age"], min_value=1, max_value=120, value=30)
-        bmi = st.number_input(texts["bmi"], min_value=10.0, max_value=60.0, value=22.0)
-        glucose = st.number_input(texts["glucose"], min_value=50.0, max_value=300.0, value=90.0)
+        age = st.number_input(texts["age"], min_value=1, max_value=120, value=30,key="predict_age")
+        bmi = st.number_input(texts["bmi"], min_value=10.0, max_value=60.0, value=22.0,key="predict_bmi")
+        glucose = st.number_input(texts["glucose"], min_value=50.0, max_value=300.0, value=90.0,key="predict_glucose")
 
         # 📊 示例趋势图
         data = pd.DataFrame({
@@ -319,7 +319,7 @@ with tab2:
 with tab3:
         st.markdown(f"### 🔥 {texts['bmr_calc']}")
 
-        gender = st.radio(texts["gender"], [texts["male"], texts["female"]], horizontal=True)
+        gender = st.radio(texts["gender"], [texts["male"], texts["female"]], horizontal=True,key="bmr_gender")
         weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0,key="bmr_weight")
         height = st.number_input(texts["height"], min_value=100.0, max_value=220.0, value=170.0,key="bmr_height")
         age = st.number_input(texts["age"], min_value=10, max_value=100, value=25,key="bmr_age")
