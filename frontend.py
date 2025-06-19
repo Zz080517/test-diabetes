@@ -222,29 +222,6 @@ service_options = {
     "bmr": texts["bmr_calc"],
 }
 
-background_styles = {
-    "predict": """
-        <style>
-        html, body, .stApp {
-            background: linear-gradient(to bottom right, #fefcea, #f1daff);
-        }
-        </style>
-    """,
-    "bmi": """
-        <style>
-        html, body, .stApp {
-            background: linear-gradient(135deg, #e0f7fa, #fffde7);
-        }
-        </style>
-    """,
-    "bmr": """
-        <style>
-        html, body, .stApp {
-            background: linear-gradient(to top left, #e6ffe6, #f0f0f0);
-        }
-        </style>
-    """
-}
 
 # 🧾 页面主标题
 st.title(texts["title"])
@@ -253,7 +230,12 @@ tab1, tab2, tab3 = st.tabs([texts["predict"], texts["calc_bmi"], texts["bmr_calc
 
 with tab1:
         st.markdown(f"## 🤖 **{texts['title']}**")
-        st.markdown(background_styles["predict"], unsafe_allow_html=True)
+        st.markdown("""
+                <div style='background: linear-gradient(to bottom right, #fefcea, #f1daff); 
+                            padding: 30px; 
+                            border-radius: 12px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.05);'>
+            """, unsafe_allow_html=True)
 
         age = st.number_input(texts["age"], min_value=1, max_value=120, value=30,key="predict_age")
         bmi = st.number_input(texts["bmi"], min_value=10.0, max_value=60.0, value=22.0,key="predict_bmi")
@@ -315,9 +297,16 @@ with tab1:
         for note in notes:
             st.info(note)
 
+        st.markdown("</div>", unsafe_allow_html=True)
+
 with tab2:
         st.markdown(f"### ⚖️ {texts['calc_bmi']}")
-        st.markdown(background_styles["bmi"], unsafe_allow_html=True)
+        st.markdown("""
+               <div style='background: linear-gradient(135deg, #e0f7fa, #fffde7);
+                            padding: 30px;
+                            border-radius: 12px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.05);'>
+           """, unsafe_allow_html=True)
 
         weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0,key="bmi_weight")
         height_cm = st.number_input(texts["height"], min_value=100.0, max_value=220.0, value=170.0,key="bmi_height")
@@ -346,10 +335,18 @@ with tab2:
         else:
             st.warning(f"{texts['gain']} {abs(round(delta, 1))} kg → {texts['reach_ideal']}")
 
+        st.markdown("</div>", unsafe_allow_html=True)
+
 with tab3:
         st.markdown(f"## 🔥 **{texts['bmr_calc']}**")
+        st.markdown("""
+                <div style='background: linear-gradient(135deg, #d1ffec, #eefdf5);
+                             padding: 30px;
+                             border-radius: 12px;
+                             box-shadow: 0 2px 8px rgba(0,0,0,0.05);'>
+            """, unsafe_allow_html=True)
+
         st.info(texts["bmr_tip"])
-        st.markdown(background_styles["bmr"], unsafe_allow_html=True)
 
         gender = st.radio(texts["gender"], [texts["male"], texts["female"]], horizontal=True,key="bmr_gender")
         weight = st.number_input(texts["weight"], min_value=30.0, max_value=200.0, value=60.0,key="bmr_weight")
@@ -363,3 +360,5 @@ with tab3:
 
         bmr = round(bmr, 2)
         st.success(f"🎉 {texts['bmr_result']}：{bmr} kcal/day")
+        st.markdown("</div>", unsafe_allow_html=True)
+
